@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:hackathon_facef_app/ui/responsavel_register.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   @override
@@ -11,13 +14,24 @@ class _LoginState extends State<Login> {
   final _loginController = MaskedTextController(mask: '000.000.000-00');
   final _passwordController = TextEditingController();
 
+  Future _login() async {
+    var login = _loginController.value.text;
+    var password = _passwordController.value.text;
+
+    var response = await http.get(
+      'https://hackathon-facef-api.herokuapp.com/responsaveis?cpf=$login&senha=$password'
+    );
+
+    return json.decode(response.body);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.lightBlue, Colors.blueAccent],
+            colors: [Colors.lightBlue[300], Colors.blueAccent],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           )
@@ -29,10 +43,8 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 128),
-                    child: Image.network(
-                      'http://legacy.unifacef.com.br/novo/logo/LOGO_Uni-FACEF.png'
-                    ),
+                    padding: const EdgeInsets.only(bottom: 64),
+                    child: Image.asset('assets/logo.png', scale: 2.5,),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -126,7 +138,11 @@ class _LoginState extends State<Login> {
                       child: Text("ENTRAR"),
                       color: Colors.orange,
                       onPressed: () {
-                        print("logou");
+                        _login().then((res) {
+                          var id = res[0]['id'];
+                          
+                          print(id);
+                        });
                       },
                     ),
                   ),
