@@ -67,10 +67,11 @@ class _ListaCrecheState extends State<ListaCreche> {
         itemCount: _creches.length,
         itemBuilder: (context, index) {
           var distance = _creches[index]['distance'] * 1000;
+          var vagas = _creches[index]['vagas_cd_serie_1'] != null ? _creches[index]['vagas_cd_serie_1'] : 0;
           return ListTile(
             title: Text(_creches[index]['nm_exibicao_unidade_educacao']),
             subtitle:
-                Text(distance.round().toString() + ' metros de distância'),
+                Text(distance.round().toString() + ' metros de distância | ' + vagas.toString() + ' vaga(s)'),
             onTap: () {
               Navigator.push(
                   context,

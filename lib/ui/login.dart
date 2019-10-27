@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.only(bottom: 64),
                   child: Image.asset(
                     'assets/logo.png',
-                    scale: 2.5,
+                    scale: 1.65,
                   ),
                 ),
                 Padding(
@@ -135,7 +135,7 @@ class _LoginState extends State<Login> {
                                   MaterialPageRoute(
                                       // builder: (context) => ResponsavelProfile(id.toString())
                                       builder: (context) =>
-                                          ResponsavelProfile('1')));
+                                          ResponsavelProfile(id.toString())));
                             }
                           });
                         },
