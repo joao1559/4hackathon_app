@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon_facef_app/ui/lista_creche.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -150,6 +151,13 @@ class _ResponsavelProfileState extends State<ResponsavelProfile> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ListaCreche(_responsavel['id'].toString())));
+        },
       ),
     );
   }

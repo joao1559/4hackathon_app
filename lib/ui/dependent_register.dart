@@ -4,22 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'dart:async';
 import 'package:camera/camera.dart';
+import 'package:hackathon_facef_app/ui/responsavel_profile.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
 class DependentRegister extends StatefulWidget {
+  String _id;
   Map<String, dynamic> _creche;
 
-  DependentRegister(creche) {
+  DependentRegister(creche, id) {
     this._creche = creche;
+    this._id = id;
   }
 
   @override
-  _DependentRegisterState createState() => _DependentRegisterState(_creche);
+  _DependentRegisterState createState() =>
+      _DependentRegisterState(_creche, _id);
 }
 
 class _DependentRegisterState extends State<DependentRegister> {
+  String _id;
   Map<String, dynamic> _creche;
   String path;
   List<CameraDescription> cameras;
@@ -29,8 +34,9 @@ class _DependentRegisterState extends State<DependentRegister> {
   final _dataNascController = MaskedTextController(mask: '00/00/0000');
   final _cpfController = MaskedTextController(mask: '000.000.000-00');
 
-  _DependentRegisterState(creche) {
+  _DependentRegisterState(creche, id) {
     this._creche = creche;
+    this._id = id;
   }
 
   @override
@@ -75,29 +81,13 @@ class _DependentRegisterState extends State<DependentRegister> {
                     labelText: 'Nome completo',
                     labelStyle: TextStyle(color: Colors.blue),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.blue, width: 1)),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.blue, width: 1)),
                     errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.red, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.red, width: 1)),
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -108,7 +98,6 @@ class _DependentRegisterState extends State<DependentRegister> {
                   style: TextStyle(color: Colors.black),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: TextFormField(
@@ -118,29 +107,13 @@ class _DependentRegisterState extends State<DependentRegister> {
                     labelText: 'Data de nascimento',
                     labelStyle: TextStyle(color: Colors.blue),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.blue, width: 1)),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.blue, width: 1)),
                     errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.red, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.red, width: 1)),
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -151,7 +124,6 @@ class _DependentRegisterState extends State<DependentRegister> {
                   style: TextStyle(color: Colors.black),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: TextFormField(
@@ -161,29 +133,13 @@ class _DependentRegisterState extends State<DependentRegister> {
                     labelText: 'CPF',
                     labelStyle: TextStyle(color: Colors.blue),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.blue, width: 1)),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.blue, width: 1)),
                     errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.red, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                        width: 1
-                      )
-                    ),
+                        borderSide: BorderSide(color: Colors.red, width: 1)),
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -194,41 +150,45 @@ class _DependentRegisterState extends State<DependentRegister> {
                   style: TextStyle(color: Colors.black),
                 ),
               ),
-            
               RaisedButton(
                 child: Icon(Icons.camera_alt),
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Container(
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: <Widget>[
-                            CameraPreview(controller), 
-                            RaisedButton(
-                              child: Icon(Icons.camera),
-                              onPressed: () async {
-                                path = join(
-                                  // Store the picture in the temp directory.
-                                  // Find the temp directory using the `path_provider` plugin.
-                                  (await getTemporaryDirectory()).path,
-                                  '${DateTime.now()}.png',
-                                );
-                                controller.takePicture(path).then((_) {
-                                  Navigator.pop(context);
-                                });
-                              },
-                            )
-                          ],
-                        ),
-                      )
-                    )
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Container(
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: <Widget>[
+                                    CameraPreview(controller),
+                                    RaisedButton(
+                                      child: Icon(Icons.camera),
+                                      onPressed: () async {
+                                        path = join(
+                                          // Store the picture in the temp directory.
+                                          // Find the temp directory using the `path_provider` plugin.
+                                          (await getTemporaryDirectory()).path,
+                                          '${DateTime.now()}.png',
+                                        );
+                                        controller.takePicture(path).then((_) {
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                    )
+                                  ],
+                                ),
+                              )));
                 },
               ),
-            
-              path != null ? Container(child: Image.file(File(path),), height: 300) : Container(height: 300,)
+              path != null
+                  ? Container(
+                      child: Image.file(
+                        File(path),
+                      ),
+                      height: 300)
+                  : Container(
+                      height: 300,
+                    )
             ],
           ),
         ),
@@ -241,17 +201,18 @@ class _DependentRegisterState extends State<DependentRegister> {
           var cpf = _cpfController.value.text;
           var dataNasc = _dataNascController.value.text;
 
-          var response = await http.post(
-            'https://hackathon-facef-api.herokuapp.com/dependentes',
-            body: {
-              'nome': nome,
-              'cpf': cpf,
-              'dataNascimento': dataNasc,
-              'creche': _creche
-            }
-          );
+          await http.post(
+              'https://hackathon-facef-api.herokuapp.com/dependentes',
+              body: {
+                'nome': nome,
+                'cpf': cpf,
+                'dataNascimento': dataNasc,
+                'creche': json.encode(_creche),
+                'responsavel_id': _id,
+              });
 
-          return json.decode(response.body);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ResponsavelProfile(_id)));
         },
       ),
     );

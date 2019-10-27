@@ -4,12 +4,23 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class ListaCreche extends StatefulWidget {
+  String _id;
+
+  ListaCreche(id) {
+    this._id = id;
+  }
+
   @override
-  _ListaCrecheState createState() => _ListaCrecheState();
+  _ListaCrecheState createState() => _ListaCrecheState(_id);
 }
 
 class _ListaCrecheState extends State<ListaCreche> {
-   List _creches = [];
+  String _id;
+  List _creches = [];
+
+  _ListaCrecheState(id) {
+    this._id = id;
+  }
 
   Future<Null> _refresh() async {
     _getCreches().then((data) {
@@ -21,16 +32,15 @@ class _ListaCrecheState extends State<ListaCreche> {
 
   Future<List> _getCreches() async {
     try {
-      final data = await http.get('https://filadacreche.sme.prefeitura.sp.gov.br/api/v1/schools/radius/wait/-46.643394/-23.615177/4');
+      final data = await http.get(
+          'https://filadacreche.sme.prefeitura.sp.gov.br/api/v1/schools/radius/wait/-46.643394/-23.615177/4');
 
       if (data.statusCode == 200) {
-
         final response = json.decode(data.body);
         return response['results']['schools'];
       } else {
         print('deu merda');
       }
-
     } catch (e) {
       return null;
     }
@@ -59,14 +69,14 @@ class _ListaCrecheState extends State<ListaCreche> {
           var distance = _creches[index]['distance'] * 1000;
           return ListTile(
             title: Text(_creches[index]['nm_exibicao_unidade_educacao']),
-            subtitle: Text(distance.round().toString() + ' metros de distância'),
+            subtitle:
+                Text(distance.round().toString() + ' metros de distância'),
             onTap: () {
               Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DependentRegister(_creches[index])
-                    )
-                  );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DependentRegister(_creches[index], _id)));
             },
           );
         },
