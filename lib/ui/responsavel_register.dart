@@ -335,7 +335,7 @@ class _ResponsavelRegisterState extends State<ResponsavelRegister> {
         child: Icon(Icons.check, color: Colors.white,),
         onPressed: () {
           _saveCliente().then((res) {
-            if (res['id']) {
+            if (res['id'] != null) {
               Navigator.push(
                 context,
                 MaterialPageRoute(

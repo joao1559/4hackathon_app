@@ -31,9 +31,10 @@ class _LoginState extends State<Login> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.lightBlue[300], Colors.blueAccent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            colors: [Color.fromRGBO(0, 108, 233, 1), Colors.lightBlue[300], Color.fromRGBO(0, 108, 233, 1)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [.1, .35, .8]
           )
         ),
         child: Padding(
@@ -134,17 +135,27 @@ class _LoginState extends State<Login> {
                   ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width,
                     height: 50,
-                    child: RaisedButton(
-                      child: Text("ENTRAR"),
-                      color: Colors.orange,
+                    child: Builder(
+                      builder: (context) => RaisedButton(
+                      child: Text("ENTRAR", style: TextStyle(color: Colors.white),),
+                      color: Color.fromRGBO(251, 89, 59, 1),
                       onPressed: () {
                         _login().then((res) {
-                          var id = res[0]['id'];
-                          
-                          print(id);
+                          if (res.length == 0) {
+                            final snack = SnackBar(
+                              content: Text('CPF e/ou senha incorreto(s)!'),
+                              duration: Duration(seconds: 3),
+                            );
+                            Scaffold.of(context).showSnackBar(snack);
+                          } else {
+                            var id = res[0]['id'];
+
+                            print(id);
+                          }
                         });
                       },
                     ),
+                    )
                   ),
                   FlatButton(
                     child: Text(
