@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 class ResponsavelProfile extends StatefulWidget {
   String _id;
@@ -17,8 +18,12 @@ class ResponsavelProfile extends StatefulWidget {
 class _ResponsavelProfileState extends State<ResponsavelProfile> {
   String _id;
   bool _isLoading = true;
+  List<String> imagens = [
+    'https://imageserve.babycenter.com/16/000/416/R123DdZ0d94B1pb6AacEiJk7HFF843Br_med.jpg',
+    'http://1.bp.blogspot.com/_oPYPxd0ixNw/SdOf5_2E_sI/AAAAAAAAAUM/BfmFpLakS1g/s400/foto3x4+col%C3%A9gio.jpg',
+    'https://imageserve.babycenter.com/18/000/416/UHSrrN03ASPW94xm2vdJ1BxYEDx7dd46_med.jpg',
+  ];
   Map<String, dynamic> _responsavel;
-  Map<String, dynamic> _dependentes;
 
   _ResponsavelProfileState(id) {
     this._id = id;
@@ -46,6 +51,11 @@ class _ResponsavelProfileState extends State<ResponsavelProfile> {
     http.Response response = await http.get(
         'https://hackathon-facef-api.herokuapp.com/dependentes?responsavel_id=$_id');
     return json.decode(response.body);
+  }
+
+  int _generateRandom() {
+    var random = new Random();
+    return random.nextInt(3);
   }
 
   @override
@@ -153,6 +163,11 @@ class _ResponsavelProfileState extends State<ResponsavelProfile> {
             itemCount: snapshot.data.length,
             itemBuilder: (BuildContext ctx, int index) {
               return ListTile(
+                leading: CircleAvatar(
+                  radius: 30.0,
+                  backgroundImage: NetworkImage(imagens[_generateRandom()]),
+                  backgroundColor: Colors.transparent,
+                ),
                 title: Text(snapshot.data[index]['nome']),
                 subtitle: Text(
                   snapshot.data[index]['cpf'],
