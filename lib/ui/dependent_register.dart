@@ -187,7 +187,7 @@ class _DependentRegisterState extends State<DependentRegister> {
                       ),
                       height: 300)
                   : Container(
-                      height: 300,
+                      height: 200,
                     )
             ],
           ),
