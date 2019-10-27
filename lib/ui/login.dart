@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:hackathon_facef_app/ui/responsavel_profile.dart';
 import 'package:hackathon_facef_app/ui/responsavel_register.dart';
 import 'package:http/http.dart' as http;
 
@@ -150,7 +151,12 @@ class _LoginState extends State<Login> {
                           } else {
                             var id = res[0]['id'];
 
-                            print(id);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResponsavelProfile(id.toString())
+                              )
+                            );
                           }
                         });
                       },
