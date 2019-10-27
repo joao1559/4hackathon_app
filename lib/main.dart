@@ -6,7 +6,5 @@ void main() {
       title: 'Hackathon Facef',
       home: Login(),
       theme: ThemeData(
-        primaryColor: Colors.blue, accentColor: Colors.amberAccent
-      )
-    ));
+          primaryColor: Colors.blue, accentColor: Colors.amberAccent)));
 }
