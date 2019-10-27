@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon_facef_app/ui/dependente_profile.dart';
 import 'package:hackathon_facef_app/ui/lista_creche.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -184,7 +185,13 @@ class _ResponsavelProfileState extends State<ResponsavelProfile> {
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColor),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DependenteProfile(
+                              snapshot.data[index]['id'].toString())));
+                },
               );
             },
           );
